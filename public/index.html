@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f5eb">
+    <meta name="description" content="A friendly AI cooking assistant for recipes, substitutions, and meal ideas.">
+    <title>Chef.GPT — your kitchen sidekick</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Chef.GPT home">
+          <span class="brand-mark" aria-hidden="true">✳</span>
+          <span>Chef<span class="brand-dot">.</span>GPT</span>
+        </a>
+        <span class="topbar-note"><span class="status-dot" aria-hidden="true"></span>Your kitchen sidekick</span>
+      </header>
+
+      <main class="layout">
+        <section class="conversation-panel" aria-labelledby="page-title">
+          <div class="conversation-heading">
+            <div>
+              <p class="eyebrow">A little inspiration for your kitchen</p>
+              <h1 id="page-title">What are we <em>cooking</em> today?</h1>
+              <p class="intro">Tell me what’s in your fridge, or ask me anything about making a great meal.</p>
+            </div>
+            <button class="clear-button" id="clear-chat" type="button" aria-label="Start a new chat">
+              <span aria-hidden="true">↻</span> New chat
+            </button>
+          </div>
+
+          <div class="chat-card">
+            <div class="chat-messages" id="chat-messages" role="log" aria-live="polite" aria-relevant="additions text" aria-label="Conversation with Chef.GPT">
+              <article class="message assistant-message">
+                <div class="avatar assistant-avatar" aria-hidden="true">✳</div>
+                <div class="message-content">
+                  <span class="message-author">Chef.GPT <span class="message-time">just now</span></span>
+                  <div class="bubble">
+                    <p>Hi there! I’m your kitchen sidekick. Tell me what ingredients you have, what you’re craving, or where you’re stuck. Let’s make something delicious. <span aria-hidden="true">🥕</span></p>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="composer-wrap">
+              <form class="composer" id="chat-form">
+                <label class="sr-only" for="message-input">Your cooking question</label>
+                <textarea id="message-input" name="message" rows="1" maxlength="2000" placeholder="Ask Chef.GPT anything..." autocomplete="off" required></textarea>
+                <button class="send-button" id="send-button" type="submit">
+                  <span>Send</span><span aria-hidden="true">↗</span>
+                </button>
+              </form>
+              <p class="composer-hint">Press Enter to send <span aria-hidden="true">·</span> Shift + Enter for a new line</p>
+            </div>
+          </div>
+          <p class="safety-note"><span aria-hidden="true">♡</span> Always check food safety guidance, ingredient labels, and allergen information.</p>
+        </section>
+
+        <aside class="ideas-panel" aria-labelledby="ideas-title">
+          <div class="ideas-illustration" aria-hidden="true">
+            <span class="leaf leaf-one">✳</span>
+            <span class="plate">🥗</span>
+            <span class="leaf leaf-two">✦</span>
+          </div>
+          <p class="eyebrow">A pinch of inspiration</p>
+          <h2 id="ideas-title">Not sure where to start?</h2>
+          <p class="ideas-copy">Pick a prompt and we’ll get cooking.</p>
+          <div class="prompt-list">
+            <button class="prompt-button" type="button" data-prompt="I have eggs, tomatoes, and bread. What can I make?">
+              <span class="prompt-icon" aria-hidden="true">🍳</span>
+              <span>I have eggs, tomatoes, and bread.</span>
+              <span class="prompt-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button class="prompt-button" type="button" data-prompt="Give me an easy weeknight dinner idea with chickpeas.">
+              <span class="prompt-icon" aria-hidden="true">🫘</span>
+              <span>An easy dinner with chickpeas</span>
+              <span class="prompt-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button class="prompt-button" type="button" data-prompt="What can I use instead of butter in a cake?">
+              <span class="prompt-icon" aria-hidden="true">🧁</span>
+              <span>A substitute for butter in a cake</span>
+              <span class="prompt-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <div class="tip-card">
+            <span class="tip-icon" aria-hidden="true">✦</span>
+            <p><strong>A helpful tip</strong><br>Tell Chef.GPT how much time you have or any ingredients you’d like to use up.</p>
+          </div>
+        </aside>
+      </main>
+      <footer class="footer"><span>Made for curious home cooks</span><span>Good food starts with what you have.</span></footer>
+    </div>
+  </body>
+</html>
