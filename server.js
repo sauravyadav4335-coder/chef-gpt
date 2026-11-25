@@ -9,6 +9,12 @@ const app = express();
 const port = process.env.PORT || 3000;
 const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 const publicDirectory = path.join(path.dirname(fileURLToPath(import.meta.url)), "public");
+const allowedOrigins = new Set(
+  (process.env.CORS_ORIGINS || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean),
+);
 const maxMessageLength = 2000;
 const maxHistoryEntries = 10;
 const maxHistoryTextLength = 2000;
@@ -21,6 +27,25 @@ const systemInstruction = `You are Chef.GPT, a friendly, practical cooking assis
 - Never guarantee that a recipe is allergy-safe. Remind users to check ingredient labels and prevent cross-contamination.
 - Avoid medical advice and do not present uncertain nutrition information as exact.
 - Politely redirect questions that are unrelated to cooking.`;
+
+app.use((request, response, next) => {
+  const origin = request.get("origin");
+  if (!origin || origin === `${request.protocol}://${request.get("host")}`) {
+    return next();
+  }
+  if (!allowedOrigins.has(origin)) {
+    return response.status(403).json({ error: "This website is not allowed to use Chef.GPT." });
+  }
+
+  response.setHeader("Access-Control-Allow-Origin", origin);
+  response.setHeader("Vary", "Origin");
+  response.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  if (request.method === "OPTIONS") {
+    return response.sendStatus(204);
+  }
+  next();
+});
 
 app.use(express.json({ limit: "32kb" }));
 app.use(express.static(publicDirectory));

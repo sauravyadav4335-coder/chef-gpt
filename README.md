@@ -51,15 +51,28 @@ Chef.GPT is a beginner-friendly AI cooking assistant. Ask for recipes using ingr
 
 The chat is kept in browser memory only. Refreshing or choosing **New chat** clears the conversation. To check that the server is running, visit [http://localhost:3000/api/health](http://localhost:3000/api/health).
 
-## Deploy to Render
+## Deploy the live app with GitHub Pages and Render
 
-1. Push this project to a Git repository and create a **Web Service** in [Render](https://render.com/), connecting that repository.
-2. Set the build command to `npm install`.
-3. Set the start command to `npm start`.
-4. In the service's **Environment** settings, add `GEMINI_API_KEY` with your own Google AI Studio key. You may optionally add `GEMINI_MODEL` (for example, `gemini-2.5-flash`).
-5. Deploy the service. Render supplies the `PORT` environment variable used by the Express server.
+GitHub Pages hosts the static frontend, while the Express server calls Gemini and keeps the API key private.
 
-Do not commit `.env` or paste your API key into frontend code. The key must be configured as a server environment variable on Render.
+### Deploy the backend to Render
+
+1. Create a **Web Service** in [Render](https://render.com/) and connect this repository.
+2. Set the build command to `npm install` and the start command to `npm start`.
+3. In the service's **Environment** settings, add `GEMINI_API_KEY` with your own Google AI Studio key.
+4. Add `CORS_ORIGINS` set to `https://sauravyadav4335-coder.github.io` (or your GitHub Pages site origin). Do not include a trailing slash.
+5. Deploy the service and copy its public URL.
+
+Render supplies the `PORT` environment variable. You may optionally set `GEMINI_MODEL` (for example, `gemini-2.5-flash`).
+
+### Deploy the frontend to GitHub Pages
+
+1. In the repository's **Settings → Pages**, set the source to **GitHub Actions**.
+2. In **Settings → Secrets and variables → Actions → Variables**, create a repository variable named `CHEF_GPT_API_URL` and set it to the Render service URL (for example, `https://your-service.onrender.com`).
+3. Push a change to `main`, or run the **Deploy to GitHub Pages** workflow from the **Actions** tab.
+4. Visit `https://sauravyadav4335-coder.github.io/chef-gpt/`.
+
+The workflow writes the backend URL into the public frontend at deploy time. This URL is not secret. Never put `GEMINI_API_KEY` in a GitHub variable, frontend file, or commit; keep it only in Render's environment settings.
 
 ## Project structure
 

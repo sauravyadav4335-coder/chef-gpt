@@ -5,6 +5,9 @@ const sendButton = document.querySelector("#send-button");
 const clearButton = document.querySelector("#clear-chat");
 const messagesElement = document.querySelector("#chat-messages");
 const promptButtons = document.querySelectorAll("[data-prompt]");
+const apiBaseUrl = typeof window.CHEF_GPT_API_URL === "string"
+  ? window.CHEF_GPT_API_URL.trim().replace(/\/+$/, "")
+  : "";
 
 const greeting = {
   role: "model",
@@ -65,7 +68,11 @@ async function sendMessage(rawMessage) {
   setBusy(true);
 
   try {
-    const response = await fetch("/api/chat", {
+    if (window.location.hostname.endsWith("github.io") && !apiBaseUrl) {
+      throw new Error("The chat server is not configured yet. Set the CHEF_GPT_API_URL Actions variable in the GitHub repository settings.");
+    }
+
+    const response = await fetch(`${apiBaseUrl}/api/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message, history }),
