@@ -39,6 +39,12 @@ jobs:
         run: |
           printf 'window.CHEF_GPT_API_URL = %s;\n' "$(jq -Rn --arg url "$CHEF_GPT_API_URL" '$url')" > public/config.js
 
+      - name: Version frontend assets
+        shell: bash
+        run: |
+          sed -i "s|src=\"./config.js\"|src=\"./config.js?v=${GITHUB_RUN_ID}\"|" public/index.html
+          sed -i "s|src=\"./app.js\"|src=\"./app.js?v=${GITHUB_RUN_ID}\"|" public/index.html
+
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
